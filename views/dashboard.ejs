@@ -1,0 +1,71 @@
+<%- include('partials/header') -%>
+
+  <% if (dashboardContext) { %>  
+
+      <h2 class="text-left text-2xl/9 font-bold tracking-tight text-gray-900">Generate a Ticket to configure your SSO. </h2>
+      <form action="/dashboard" method="post" class="mt-5 w-full max-w-xl">
+        <div class="md:flex md:items-center mb-6 ">
+          <div class="md:w-2/5">
+            <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" >
+              Self Service SSO Profile:
+            </label>
+          </div>
+
+          <div class="md:w-3/5">
+            <select name="profile_id" id="profile_id" class="bg-gray-200 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+              <% dashboardContext.ssoProfiles.forEach((profile) => { %>
+                <option value="<%= profile.id %>"><%= profile.name %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+          <div class="md:w-2/5">
+            <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" >
+              Connection Name:
+            </label>
+            
+          </div>
+          <div class="md:w-3/5">
+            <input name="connection_name" type="text" placeholder="name-of-your-connection" 
+            pattern="^[a-zA-Z0-9](-[a-zA-Z0-9]|[a-zA-Z0-9])*$" 
+            title="input must be following the pattern:^[a-zA-Z0-9](-[a-zA-Z0-9]|[a-zA-Z0-9])*$"
+            required 
+            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" 
+            id="connection_name" >
+          </div>
+        </div>
+        <div class="md:flex md:items-center mb-6">
+          <div class="md:w-2/5">
+            <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+              Enabled Clients:
+            </label>
+          </div>
+          <div class="md:w-3/5">
+            <select multiple name="enabled_clients" id="enabled_clients" class="bg-gray-200 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+              <% dashboardContext.clients.forEach((client) => { %>
+                <option value="<%= client.client_id %>"><%= client.name %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+        <div class="md:flex md:items-center">
+          <div class="md:w-2/5"></div>
+          <div class="md:w-3/5">
+            <button class="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+              Create
+            </button>
+          </div>
+        </div>
+      </form>
+  <% } else if (ticketURL) { %>
+    <h2 class="text-left text-2xl/9 font-bold tracking-tight text-gray-900">Tciket has been generated.</h2>
+    <button
+      onclick="window.open('<%= ticketURL %>', '_blank')" 
+      class="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+      Click here to Configure SSO
+    </button>
+  <% } %>  
+
+<%- include('partials/footer') -%>
