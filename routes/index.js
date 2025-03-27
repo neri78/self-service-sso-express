@@ -1,6 +1,5 @@
 var router = require('express').Router();
 const { requiresAuth } = require('express-openid-connect');
-const { ManagementClient } = require('auth0');
 
 router.get('/', function (req, res, next) {
   res.render('index', {
