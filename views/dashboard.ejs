@@ -2,7 +2,6 @@
 
   <% if (ticketURL) { %>  
 
-      <h2 class="text-left text-2xl/9 font-bold tracking-tight text-gray-900">Tciket has been generated.</h2>
       <button
         onclick="window.open('<%= ticketURL %>', '_blank')" 
         class="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
@@ -11,12 +10,11 @@
   
   <% } else  { %>
 
-    <h2 class="text-left text-2xl/9 font-bold tracking-tight text-gray-900">Generate a Ticket to configure your SSO. </h2>
     <form action="/dashboard" method="post" class="w-full max-w-xl">
       <div class="md:flex md:items-center">
         <div >
           <button class="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-            Create
+            Add SSO Connection
           </button>
         </div>
       </div>
