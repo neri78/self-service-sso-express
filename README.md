@@ -2,6 +2,8 @@
 
 This sample demonstrates [Self Service SSO](https://auth0.com/docs/authenticate/enterprise-connections/self-service-SSO) feature on Auth0. Also this sample application is built based on [auth0-express-webapp-sample](https://github.com/auth0-samples/auth0-express-webapp-sample)
 
+Please read [Unlock Enterprise Readiness: How to Add Self-Service SSO to Your SaaS App](https://auth0.com/blog/how-to-add-self-service-sso-to-your-nodejs-saas-app/) for more deails.
+
 ## Requirements
 
 - > Node v18
