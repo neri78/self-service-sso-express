@@ -25,21 +25,21 @@ router.get('/dashboard', requiresAuth() ,async function (req, res, next) {
 
 router.post('/dashboard', requiresAuth() , async function (req, res, next) {
 
-  // get an instance of the ManagementClient
+  // get an instance of the ManagementClient.
   const management = getManagementClient();
 
-  // Get a list of Self Service Profiles with current 
-  const ssProfilesResponse = await management.selfServiceProfiles.getAll();
+  // get a list of Self-Service Profiles.
+  const { data: ssoProfiles } = await management.selfServiceProfiles.getAll();
 
-  // Use the 1st profile in this sample
-  const ssoProfile = ssProfilesResponse.data[0];
-  
-  // build options to generate a ticket for connection creation
+
+  // use the 1st profile in this sample.
+  const ssoProfile = ssoProfiles[0];
+ 
   const requestParameters = {
     id: ssoProfile.id
   };
 
-  // Generate connection name automatically and set current Auth0 application as an enabled client
+  // generate connection name automatically and set current Auth0 application as an enabled client.
   const bodyParameters = {
       connection_config: {
         name: `self-service-sso-${Date.now()}` 
@@ -47,15 +47,15 @@ router.post('/dashboard', requiresAuth() , async function (req, res, next) {
       enabled_clients: [process.env.CLIENT_ID]
   };
 
-  // generate a self sertvice sso ticket
-  const ssoTicket = await management.selfServiceProfiles.createSsoTicket(
+  // generate a Self-Service SSO ticket.
+  const { data: ssoTicket } = await management.selfServiceProfiles.createSsoTicket(
     requestParameters,
     bodyParameters
   );
 
   res.render('dashboard', {
     title: 'Admin Dashboard',
-    ticketURL: ssoTicket.data.ticket
+    ticketURL: ssoTicket.ticket
   });
 });
 
