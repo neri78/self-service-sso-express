@@ -13,8 +13,18 @@
     <form action="/dashboard" method="post" class="w-full max-w-xl">
       <div class="md:flex md:items-center">
         <div >
-          <button class="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+          <button class="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  name="action"
+                  value="create"
+                  type="submit">
             Add SSO Connection
+          </button>
+          <p>or</p>
+          <button class="shadow bg-indigo-600 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  name="action"
+                  value="edit"       
+                  type="submit">
+            Edit SSO Connection
           </button>
         </div>
       </div>

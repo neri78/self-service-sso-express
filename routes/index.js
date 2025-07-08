@@ -31,7 +31,6 @@ router.post('/dashboard', requiresAuth() , async function (req, res, next) {
   // get a list of Self-Service Profiles.
   const { data: ssoProfiles } = await management.selfServiceProfiles.getAll();
 
-
   // use the 1st profile in this sample.
   const ssoProfile = ssoProfiles[0];
  
@@ -39,14 +38,38 @@ router.post('/dashboard', requiresAuth() , async function (req, res, next) {
     id: ssoProfile.id
   };
 
-  // generate connection name automatically and set current Auth0 application as an enabled client.
-  const bodyParameters = {
-      connection_config: {
-        name: `self-service-sso-${Date.now()}` 
-      },
-      enabled_clients: [process.env.CLIENT_ID]
-  };
+  let bodyParameters = {};
 
+  const action = req.body.action;
+
+  if (action === 'create') {
+      // build bodyParameter for 'create a connection'.
+      bodyParameters = {
+          ...bodyParameters,
+          connection_config: { name: `self-service-sso-${Date.now()}` },
+          enabled_clients: [process.env.CLIENT_ID]
+      }
+  } else if (action === 'edit') {
+      // build bodyParameter for 'edit a connection'.
+      // 👇 add code
+      // get connections for the current client
+      const { data: enabledConnections } = await management.clients.getEnabledConnections({
+          client_id: process.env.CLIENT_ID
+      });
+
+      // filter a connection with the name and use the first item for this sample.
+      const ssoConnection = enabledConnections.connections.filter(connection => {
+      return connection.name.includes('self-service-sso-')
+      })[0];
+
+      // add connection_id to the bodyParameter.
+      bodyParameters = {
+          ...bodyParameters,
+          connection_id: ssoConnection.id
+      };
+      // 👆 add code
+  }
+  
   // generate a Self-Service SSO ticket.
   const { data: ssoTicket } = await management.selfServiceProfiles.createSsoTicket(
     requestParameters,
